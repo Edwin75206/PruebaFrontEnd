@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Reset mínimo para tu app --- */
+html, body, #root { height: 100%; }
+
+/* Fondo claro global y tipografía sin forzar dark mode */
+body {
+  margin: 0;
+  @apply bg-gray-50 text-gray-900 antialiased;
+}
+
+/* Por si el contenedor raíz queda más alto que la ventana */
+#root { @apply bg-gray-50; }
