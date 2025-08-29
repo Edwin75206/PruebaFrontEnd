@@ -1,15 +1,18 @@
+// src/App.jsx
 import React, { useState, useEffect } from 'react';
-import { AuthProvider } from './context/AuthContext.jsx';
-import { CartProvider } from './context/CartContext.jsx';
-import { Layout } from './components/common/Layout.jsx';
-import { HomePage } from './pages/HomePage.jsx';
-import { ProductDetailPage } from './pages/ProductDetailPage.jsx';
-import { CartPage } from './pages/CartPage.jsx';
-import { LoginPage } from './pages/LoginPage.jsx';
-import { RegisterPage } from './pages/RegisterPage.jsx';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
+import { SnackbarProvider } from './context/SnackbarContext'; // ✅ nuevo
+import { Layout } from './components/common/Layout';
+import { HomePage } from './pages/HomePage';
+import { ProductDetailPage } from './pages/ProductDetailPage';
+import { CartPage } from './pages/CartPage';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 export default function App() {
   const [route, setRoute] = useState(window.location.pathname);
+  const [headerQuery, setHeaderQuery] = useState('');
 
   const navigate = (path) => {
     window.history.pushState({}, '', path);
@@ -17,9 +20,9 @@ export default function App() {
   };
 
   useEffect(() => {
-    const onPop = () => setRoute(window.location.pathname);
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
+    const handlePopState = () => setRoute(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const renderContent = () => {
@@ -28,18 +31,26 @@ export default function App() {
       return <ProductDetailPage productId={productId} navigate={navigate} />;
     }
     switch (route) {
-      case '/cart': return <CartPage navigate={navigate} />;
-      case '/login': return <LoginPage navigate={navigate} />;
-      case '/register': return <RegisterPage navigate={navigate} />;
+      case '/cart':
+        return <CartPage navigate={navigate} />;
+      case '/login':
+        return <LoginPage navigate={navigate} />;
+      case '/register':
+        return <RegisterPage navigate={navigate} />;
       case '/':
-      default: return <HomePage navigate={navigate} />;
+      default:
+        return <HomePage navigate={navigate} externalSearch={headerQuery} />;
     }
   };
 
   return (
     <AuthProvider>
       <CartProvider>
-        <Layout navigate={navigate}>{renderContent()}</Layout>
+        <SnackbarProvider> {/* ✅ Snackbar global disponible en toda la app */}
+          <Layout navigate={navigate} onSearch={setHeaderQuery}>
+            {renderContent()}
+          </Layout>
+        </SnackbarProvider>
       </CartProvider>
     </AuthProvider>
   );
