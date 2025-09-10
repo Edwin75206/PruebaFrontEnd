@@ -1,46 +1,162 @@
-import React from 'react';
-import { useAuth } from '../../context/AuthContext.jsx';
-import { useCart } from '../../context/CartContext.jsx';
+import * as React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  AppBar, Toolbar, IconButton, Box, Badge,
+  Avatar, Menu, MenuItem, Tooltip, Divider, ListItemIcon, useMediaQuery, useTheme
+} from '@mui/material';
+import { Icon } from '../../icons/index.jsx'; 
+import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 import { messages } from '../../config/defaultMessages';
+import { CategoryNav } from './CategoryNav';
 
-export const Header = ({ navigate }) => {
+// Componente principal de la barra de navegacion superior.
+export function Header() {
   const { isAuthenticated, user, logout } = useAuth();
   const { cartCount } = useCart();
+  const theme = useTheme();
+  // Hook de MUI para detectar el tamano de la pantalla y aplicar logica responsiva.
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
+
+  // Estado para controlar la visibilidad de la barra de navegacion de categorias.
+  const [showCategories, setShowCategories] = React.useState(true);
+  const handleToggleMenu = React.useCallback(() => {
+    setShowCategories((v) => !v);
+  }, []);
+
+  // Estado para manejar el anclaje del menu desplegable del usuario en movil.
+  const [userMenuAnchorEl, setUserMenuAnchorEl] = React.useState(null);
+  const isUserMenuOpen = Boolean(userMenuAnchorEl);
+  
+  const handleUserMenuOpen = (e) => setUserMenuAnchorEl(e.currentTarget);
+  const handleUserMenuClose = () => setUserMenuAnchorEl(null);
+  
+  const handleGoAndClose = (path) => {
+    handleUserMenuClose();
+    navigate(path);
+  };
+  const handleLogout = () => {
+    handleUserMenuClose();
+    logout();
+    navigate('/');
+  };
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-        <a onClick={() => navigate('/')} className="text-2xl font-bold text-gray-800 cursor-pointer hover:text-indigo-600 transition-colors">
-          {messages.general_appName.defaultMessage}
-        </a>
-        <div className="flex items-center space-x-4">
-          {isAuthenticated && user ? (
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-700 hidden sm:block">
-                {messages.header_greeting.defaultMessage}, {user.name}
-              </span>
-              <button onClick={logout} className="px-3 py-2 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors">
-                {messages.header_logout.defaultMessage}
-              </button>
-            </div>
+    // El AppBar se queda fijo en la parte superior de la pagina al hacer scroll.
+    <AppBar
+      position="sticky"
+      elevation={0}
+      sx={{ bgcolor: 'background.paper', color: 'text.primary', borderBottom: 1, borderColor: 'divider' }}
+    >
+      <Toolbar sx={{ minHeight: 72 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: { xs: 'auto', md: '33%' } }}>
+          <IconButton edge="start" aria-label="menu-categorias" onClick={handleToggleMenu}>
+            <Icon name="menu" className="h-6 w-6" /> 
+          </IconButton>
+        </Box>
+
+        <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit', fontSize: 22, fontWeight: 700, letterSpacing: 2 }}>
+            {messages.general_appName.defaultMessage}
+          </Link>
+        </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, justifyContent: 'flex-end', width: { xs: 'auto', md: '33%' } }}>
+          
+          {/* Este icono del carrito solo es visible en pantallas de escritorio (md en adelante). */}
+          <IconButton component={Link} to="/cart" aria-label="carrito" sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
+            <Badge badgeContent={cartCount} color="primary">
+              <Icon name="cart" className="h-6 w-6" /> 
+            </Badge>
+          </IconButton>
+
+          {isAuthenticated ? (
+            <>
+              <Tooltip title={messages.header_profile.defaultMessage}>
+                <IconButton
+                  id="user-menu-button"
+                  // El comportamiento del boton cambia: en movil abre un menu, en escritorio navega directo.
+                  onClick={isMobile ? handleUserMenuOpen : () => navigate('/profile')}
+                  aria-label="perfil"
+                >
+                  <Badge badgeContent={cartCount} color="primary" invisible={!isMobile || cartCount === 0} overlap="circular">
+                    <Avatar src={user?.avatar || undefined} alt={user?.name || 'User'} sx={{ width: 32, height: 32 }} />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+              
+              {/* El menu desplegable del usuario solo se renderiza en la vista movil. */}
+              {isMobile && (
+                <Menu
+                  anchorEl={userMenuAnchorEl}
+                  open={isUserMenuOpen}
+                  onClose={handleUserMenuClose}
+                  keepMounted
+                  MenuListProps={{ 'aria-labelledby': 'user-menu-button' }}
+                >
+                  <MenuItem onClick={() => handleGoAndClose('/profile')}>
+                    <ListItemIcon><Icon name="user" className="h-5 w-5" /></ListItemIcon>
+                    {messages.header_profile.defaultMessage}
+                  </MenuItem>
+                  <MenuItem onClick={() => handleGoAndClose('/cart')}>
+                    <ListItemIcon>
+                      <Badge badgeContent={cartCount} color="primary">
+                        <Icon name="cart" className="h-5 w-5" /> 
+                      </Badge>
+                    </ListItemIcon>
+                    {messages.header_cartLabel.defaultMessage}
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem onClick={handleLogout}>
+                    <ListItemIcon><Icon name="logout" className="h-5 w-5" /></ListItemIcon>
+                    {messages.header_logout.defaultMessage}
+                  </MenuItem>
+                </Menu>
+              )}
+            </>
           ) : (
-            <div className="space-x-2">
-              <a onClick={() => navigate('/login')} className="px-3 py-2 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors cursor-pointer">
-                {messages.header_login.defaultMessage}
-              </a>
-              <a onClick={() => navigate('/register')} className="px-3 py-2 text-sm bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors cursor-pointer">
-                {messages.header_register.defaultMessage}
-              </a>
-            </div>
+            <Tooltip title={messages.header_login.defaultMessage}>
+              <IconButton
+                id="guest-menu-button"
+                // Tambien para invitados, el comportamiento cambia con el tamano de la pantalla.
+                onClick={isMobile ? handleUserMenuOpen : () => navigate('/login')}
+                aria-label="login-menu"
+              >
+                <Badge badgeContent={cartCount} color="primary" invisible={!isMobile || cartCount === 0} overlap="circular">
+                   <Icon name="user" className="h-6 w-6" />
+                </Badge>
+              </IconButton>
+            </Tooltip>
           )}
-          <a onClick={() => navigate('/cart')} className="relative text-gray-700 hover:text-indigo-600 cursor-pointer">
-            🛒
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{cartCount}</span>
-            )}
-          </a>
-        </div>
-      </nav>
-    </header>
+          
+          {isMobile && !isAuthenticated && (
+            <Menu
+              anchorEl={userMenuAnchorEl}
+              open={isUserMenuOpen}
+              onClose={handleUserMenuClose}
+              keepMounted
+              MenuListProps={{ 'aria-labelledby': 'guest-menu-button' }}
+            >
+              <MenuItem onClick={() => handleGoAndClose('/login')}>
+                <ListItemIcon><Icon name="login" className="h-5 w-5" /></ListItemIcon>
+                {messages.header_login.defaultMessage}
+              </MenuItem>
+              <MenuItem onClick={() => handleGoAndClose('/cart')}>
+                <ListItemIcon>
+                  <Badge badgeContent={cartCount} color="primary">
+                    <Icon name="cart" className="h-5 w-5" />
+                  </Badge>
+                </ListItemIcon>
+                {messages.header_cartLabel.defaultMessage}
+              </MenuItem>
+            </Menu>
+          )}
+        </Box>
+      </Toolbar>
+
+      {/* La barra de categorias se renderiza aqui para que sea 'sticky' junto con el header. */}
+      <CategoryNav open={showCategories} />
+    </AppBar>
   );
-};
+}

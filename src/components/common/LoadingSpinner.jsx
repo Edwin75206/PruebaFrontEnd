@@ -1,7 +1,10 @@
 import React from 'react';
+import { Icon } from '../../icons';
 
+// Componente simple y reutilizable para mostrar un indicador de carga.
 export const LoadingSpinner = () => (
-  <div className="flex justify-center items-center p-8">
-    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500"></div>
+  <div className="flex justify-center items-center p-8 text-indigo-600">
+    {/* La clase 'animate-spin' de Tailwind crea la animacion de rotacion. */}
+    <Icon name="spinner" className="h-7 w-7 animate-spin" />
   </div>
 );

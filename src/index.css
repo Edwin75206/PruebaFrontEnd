@@ -2,14 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- Reset mínimo para tu app --- */
 html, body, #root { height: 100%; }
 
-/* Fondo claro global y tipografía sin forzar dark mode */
 body {
   margin: 0;
   @apply bg-gray-50 text-gray-900 antialiased;
 }
 
-/* Por si el contenedor raíz queda más alto que la ventana */
 #root { @apply bg-gray-50; }
+
+/* Estilos personalizados para rc-slider*/
+
+/* La barra que representa el rango seleccionado */
+.rc-slider-track {
+  background-color: #3E2E2E !important; /* <-- SE AÑADE !important */
+}
+
+/* El punto circular para arrastrar */
+.rc-slider-handle {
+  border-color: #3E2E2E !important; 
+  opacity: 1;
+}
+
+/* Efecto de foco para accesibilidad cuando se navega con el teclado */
+.rc-slider-handle:focus-visible {
+  border-color: #3E2E2E !important;
+  box-shadow: 0 0 0 3px rgba(62, 46, 46, 0.4) !important; 
+}
+.category-tab-active {
+  background-color: #f5f2ee !important;
+  color: #1f2937 !important; 
+  font-weight: 600 !important;
+}
+.category-scrollbar::-webkit-scrollbar {
+  display: none; 
+}
+.category-scrollbar {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;  
+}
