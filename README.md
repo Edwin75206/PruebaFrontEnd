@@ -86,7 +86,7 @@ La aplicación está construida con un stack moderno de JavaScript, priorizando 
 5. **Sistema de Favoritos con Persistencia y "Deshacer"**  
    - `FavoritesContext` con persistencia en `localStorage`  
    - Notificación Snackbar con acción "Deshacer"  
-   - <img width="1512" height="982" alt="Captura de pantalla 2025-09-09 a la(s) 5 42 47 p m" src="https://github.com/user-attachments/assets/f83a4585-8aa2-40f9-b203-6fb91f13dd5f" />
+   - <img width="1512" height="982" alt="Captura de pantalla 2025-09-09 a la(s) 5 42 55 p m" src="https://github.com/user-attachments/assets/fb303a25-9630-4f92-beda-8c96d6c82735" />
 
 
 6. **Perfil de Usuario Multifuncional**  
