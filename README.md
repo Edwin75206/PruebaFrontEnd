@@ -1,4 +1,4 @@
-# 🌌 Starlight Chest
+# Starlight Chest
 
 **Starlight Chest** es una aplicación web de ecommerce moderna, responsiva y funcional, desarrollada como solución a la prueba técnica para la posición de **Becario Frontend**.  
 La aplicación consume la **Platzi Fake Store API** para simular una experiencia de compra completa, desde la navegación de productos hasta la autenticación y un flujo de pago simulado.
@@ -7,7 +7,7 @@ La aplicación consume la **Platzi Fake Store API** para simular una experiencia
 
 ---
 
-## 🚀 Stack Tecnológico
+## Stack Tecnológico
 
 La aplicación está construida con un stack moderno de JavaScript, priorizando la reutilización de componentes y un manejo de estado centralizado:
 
@@ -21,7 +21,7 @@ La aplicación está construida con un stack moderno de JavaScript, priorizando 
 
 ---
 
-## ⚙️ Instalación y Puesta en Marcha Local
+## Instalación y Puesta en Marcha Local
 
 1. Clona el repositorio:  
    ```bash
@@ -43,33 +43,41 @@ La aplicación está construida con un stack moderno de JavaScript, priorizando 
    npm run dev
    ```
 
-👉 La aplicación estará disponible en [http://localhost:5173](http://localhost:5173).
+ La aplicación estará disponible en [http://localhost:5173](http://localhost:5173).
 
 ---
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
-### 🔹 Funcionalidades Requeridas
+### Funcionalidades Requeridas
 
 1. **Navegación y Visualización de Productos**  
    - Explora productos en la página principal  
    - Vista de detalle `/product/:id` con consumo dinámico de API  
-   - *(Insertar captura de la página de inicio aquí)*  
+   - <img width="1512" height="982" alt="Captura de pantalla 2025-09-08 a la(s) 6 25 37 p m" src="https://github.com/user-attachments/assets/b3e5f140-33ad-4076-a400-909dc4bf7447" />
+
 
 2. **Filtrado y Ordenamiento en Tiempo Real**  
    - Página `/category/:id` con filtros por nombre, rango de precio y ordenamiento  
    - Optimización con `useMemo`  
-   - *(Insertar captura de una categoría con filtros aquí)*  
+   - <img width="1512" height="982" alt="Captura de pantalla 2025-09-09 a la(s) 12 35 19 p m" src="https://github.com/user-attachments/assets/a1f88daf-cc6b-4a91-91fe-9869e07a7f62" />
+
 
 3. **Gestión Avanzada del Carrito de Compras**  
    - Carrito global con `CartContext`  
    - Persistencia en `localStorage`  
-   - *(Insertar captura del carrito de compras aquí)*  
+   -  <img width="1512" height="982" alt="Captura de pantalla 2025-09-09 a la(s) 12 35 56 p m" src="https://github.com/user-attachments/assets/67d64e5f-a11c-4d0f-80ae-c9eaa869ee3b" />
+
 
 4. **Sistema de Autenticación Robusto**  
    - Registro/Login con JWT  
    - `AuthContext` maneja estado y rutas protegidas  
-   - *(Insertar captura de login/registro aquí)*  
+   - Registro
+     <img width="1512" height="982" alt="Captura de pantalla 2025-09-11 a la(s) 5 24 07 p m" src="https://github.com/user-attachments/assets/aefc8207-209b-450c-a524-950ea039e9a0" />
+   - Login
+     <img width="1512" height="982" alt="Captura de pantalla 2025-09-11 a la(s) 5 24 27 p m" src="https://github.com/user-attachments/assets/e1736e2e-b8e0-4d15-b3bb-bf7193cf3f98" />
+
+
 
 ---
 
@@ -78,27 +86,23 @@ La aplicación está construida con un stack moderno de JavaScript, priorizando 
 5. **Sistema de Favoritos con Persistencia y "Deshacer"**  
    - `FavoritesContext` con persistencia en `localStorage`  
    - Notificación Snackbar con acción "Deshacer"  
-   - *(Insertar captura de un producto favorito aquí)*  
+   - <img width="1512" height="982" alt="Captura de pantalla 2025-09-09 a la(s) 5 42 47 p m" src="https://github.com/user-attachments/assets/f83a4585-8aa2-40f9-b203-6fb91f13dd5f" />
+
 
 6. **Perfil de Usuario Multifuncional**  
    - Vista unificada con datos de `AuthContext`, `FavoritesContext`, `OrderContext`  
    - Edición de perfil con actualización en tiempo real  
-   - *(Insertar captura del perfil aquí)*  
+   - <img width="1512" height="982" alt="Captura de pantalla 2025-09-09 a la(s) 5 42 55 p m" src="https://github.com/user-attachments/assets/fb303a25-9630-4f92-beda-8c96d6c82735" />
+
 
 7. **Historial de Pedidos Simulado**  
    - `OrderContext` simula pedidos guardados en `localStorage`  
    - Se muestran en el perfil del usuario  
-   - *(Insertar captura del historial de pedidos aquí)*  
-
-8. **Experiencia de Usuario Consistente (UI/UX)**  
-   - `ModalContext` para confirmaciones globales  
-   - `SnackbarContext` para notificaciones estandarizadas  
-   - Header responsivo con `useMediaQuery`  
-   - *(Insertar captura del modal de cierre de sesión aquí)*  
+   - <img width="1512" height="982" alt="Captura de pantalla 2025-09-09 a la(s) 5 42 55 p m" src="https://github.com/user-attachments/assets/fb303a25-9630-4f92-beda-8c96d6c82735" />
 
 ---
 
-## 🏛️ Arquitectura del Proyecto
+## Arquitectura del Proyecto
 
 La aplicación está organizada de manera modular y escalable:
 
@@ -113,7 +117,7 @@ Este enfoque asegura una aplicación **fácil de entender, depurar y escalar**.
 
 ---
 
-## 👨‍💻 Autor
+## 🧑🏻‍💻 Autor
 
 Este proyecto fue diseñado y desarrollado por:
 
